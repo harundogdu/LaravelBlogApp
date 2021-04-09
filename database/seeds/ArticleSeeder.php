@@ -21,7 +21,7 @@ class ArticleSeeder extends Seeder
                 'category_id' => rand(1,5),
                 'title' => $title,
                 'content' => $faker->realText(600),
-                'image' => $faker->imageUrl(800,400,'cats',true),
+                'image' => 'https://picsum.photos/'.'800'.'/'.'400',
                 'slug' => Str::slug($title),
                 'created_at' => $faker->dateTime('now'),
                 'updated_at' => now()

@@ -11,4 +11,5 @@
 |
 */
 
-Route::get('/','Front\Homepage@index') ;
+Route::get('/','Front\Homepage@index')->name('homepage') ;
+Route::get('/blog/{slug}','Front\Homepage@singlePage')->name('single');

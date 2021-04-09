@@ -4,7 +4,8 @@
       <div class="col-lg-9 col-md-10 mx-auto">
         @foreach($articles as $article)
         <div class="post-preview">
-          <a href="post.html">
+          <img src="{{$article->image}}" alt="Article image {{$article->id}}">
+          <a href="{{route('single',$article->slug)}}">
             <h2 class="post-title">
              {{$article->title}}
             </h2>

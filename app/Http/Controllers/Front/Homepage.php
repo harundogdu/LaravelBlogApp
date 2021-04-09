@@ -15,4 +15,8 @@ class Homepage extends Controller
         $data['categories'] = Category::inRandomOrder()->get();
         return view('front.homepage',$data);
     }
+    public function singlePage($slug)
+    {
+        return $slug;
+    }
 }
