@@ -12,4 +12,5 @@
 */
 
 Route::get('/','Front\Homepage@index')->name('homepage') ;
+Route::get('/kategori/{slug}','Front\Homepage@category')->name('category');
 Route::get('/{category}/{slug}','Front\Homepage@singlePage')->name('single');
