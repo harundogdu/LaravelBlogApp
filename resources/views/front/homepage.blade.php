@@ -6,12 +6,12 @@
         <div class="post-preview">
           <img src="{{$article->image}}" alt="Article image {{$article->id}}">
           <a href="{{route('single',$article->slug)}}">
-            <h2 class="post-title">
+            <h3 class="post-title">
              {{$article->title}}
-            </h2>
-            <h3 class="post-subtitle">
-              {{str_limit($article->content,75)}}
             </h3>
+            <h4 class="post-subtitle">
+              {{str_limit($article->content,75)}}
+            </h4>
           </a>
           <p class="post-meta">
             Catagory is : <a href="#">{{$article->getCategory->name}}</a>    

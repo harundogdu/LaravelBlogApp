@@ -17,6 +17,10 @@ class Homepage extends Controller
     }
     public function singlePage($slug)
     {
-        return $slug;
+        $article= Article::where('slug',$slug)->first() ?? abort(404,'Sayfa Bulunamadı.');
+        $article->increment('hit');        
+        $data['article'] = $article;
+        $data['categories']= Category::inRandomOrder()->get();
+        return view('front.post',$data);
     }
 }

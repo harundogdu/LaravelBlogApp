@@ -1,3 +1,4 @@
+@isset($categories)
 <div class="col-lg-3 col-md-2">
     <div class="card">
         <div class="card-header">Kategoriler</div>
@@ -11,3 +12,4 @@
               </ul>
         </div>        
   </div>
+@endisset
