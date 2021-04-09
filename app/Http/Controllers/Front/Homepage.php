@@ -15,9 +15,10 @@ class Homepage extends Controller
         $data['categories'] = Category::inRandomOrder()->get();
         return view('front.homepage',$data);
     }
-    public function singlePage($slug)
+    public function singlePage($category,$slug)    
     {
-        $article= Article::where('slug',$slug)->first() ?? abort(404,'Sayfa Bulunamadı.');
+        $category = Category::whereSlug($category)->first() ?? abort(403,'Böyle bir kategori bulunamadı.');
+        $article= Article::where('slug',$slug)->whereCategoryId($category->id)->first() ?? abort(403,'Sayfa Bulunamadı.');
         $article->increment('hit');        
         $data['article'] = $article;
         $data['categories']= Category::inRandomOrder()->get();

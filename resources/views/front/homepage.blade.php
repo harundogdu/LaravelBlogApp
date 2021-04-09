@@ -5,7 +5,7 @@
         @foreach($articles as $article)
         <div class="post-preview">
           <img src="{{$article->image}}" alt="Article image {{$article->id}}">
-          <a href="{{route('single',$article->slug)}}">
+          <a href="{{route('single',[$article->getCategory->slug,$article->slug])}}">
             <h3 class="post-title">
              {{$article->title}}
             </h3>
