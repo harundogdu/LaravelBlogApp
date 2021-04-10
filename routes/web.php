@@ -12,6 +12,7 @@
 */
 
 Route::get('/','Front\Homepage@index')->name('homepage') ;
-Route::get('/{slug}','Front\Homepage@category')->name('category');
+Route::get('/{page}','Front\Homepage@pages')->name('page');
+Route::get('/kategori/{slug}','Front\Homepage@category')->name('category');
 Route::get('/yazilar/sayfa','Front\Homepage@index');
 Route::get('/kategori/{category}/{slug}','Front\Homepage@singlePage')->name('single');
