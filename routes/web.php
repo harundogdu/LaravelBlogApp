@@ -8,7 +8,9 @@
 */
 
 Route::get('admin/panel','Back\Dashboard@index')->name('admin.dashboard');
-Route::get('admin/login','Back\Auth@login')->name('admin.login');
+Route::get('admin/giris','Back\AuthController@login')->name('admin.login');
+Route::post('admin/giris','Back\AuthController@loginPost')->name('admin.login.post');
+Route::get('admin/cikis','Back\AuthController@logout')->name('admin.logout');
 
 /*
 |--------------------------------------------------------------------------

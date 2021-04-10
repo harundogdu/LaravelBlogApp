@@ -30,23 +30,21 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Hoşgeldiniz!</h1>
                                     </div>
-                                    <form class="user">
+                                    @if($errors->any())
+                                    <div class="alert alert-danger text-center">{{$errors->first()}}</div>
+                                    @endif
+                                    <form class="user" method="POST" action="{{route('admin.login.post')}}">
+                                        @csrf
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Email Adresinizi Giriniz..">
+                                                placeholder="Email Adresinizi Giriniz.." name="email" required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Şifrenizi Giriniz..">
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Beni Hatırla</label>
-                                            </div>
-                                        </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">Giriş Yap</a>
+                                                id="exampleInputPassword" placeholder="Şifrenizi Giriniz.." name="password" required>
+                                        </div>                                       
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Giriş Yap</button>
                                     </form>
                                    
                                 </div>
