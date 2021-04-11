@@ -5,16 +5,16 @@
   <a href="{{route('single',[$article->getCategory->slug,$article->slug])}}">
     <h3 class="post-title">
      {{$article->title}}
-    </h3>
+    </h3>    
     <h4 class="post-subtitle">
-      {{str_limit($article->content,75)}}
+      {!! Str::limit($article->content,500) !!}      
     </h4>
   </a>
   <p class="post-meta">
     @isset($category)    
       Catagory is : <a href="{{route('category',$category->slug)}}">{{$article->getCategory->name}}</a> 
     @endisset         
-    <span class="float-right">shared on {{$article->created_at->diffForHumans()}}</span>  
+    <span class="float-right">{{$article->created_at->diffForHumans()}} paylaşıldı.</span>  
     <br> 
   </p>  
 </div>

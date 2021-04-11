@@ -23,9 +23,18 @@
                     </tr>
                 </thead>                
                 <tbody>                    
-                   @foreach($articles as $article)
+                   @if(count($articles) == 0)
+                    <tr>                      
+                        <td colspan="7">
+                            <div class="alert alert-danger">Veri Bulunamadı</div>
+                        </td>
+                    </tr>
+                       @else
+                       @foreach($articles as $article)
                    <tr>
-                    <td><img src="{{$article->image}}" alt="{{$article->title}}" width="200"></td>
+                    <td>
+                        <img src="{{ asset($article->image) }}" alt="{{$article->title}}" width="200">
+                    </td>
                     <td>{{$article->title}}</td>
                     <td>{{$article->getCategory->name}}</td>
                     <td>{{$article->hit}}</td>
@@ -47,10 +56,22 @@
                             </a>
                     </td>
                     </tr>
-                   @endforeach
+                    @endforeach
+                   @endif
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+@endsection
+@section('css')    
+<link href="{{asset('back')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+@endsection
+@section('js')    
+ <!-- Page level plugins -->
+ <script src="{{asset('back')}}/vendor/datatables/jquery.dataTables.min.js"></script>
+ <script src="{{asset('back')}}/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+ <!-- Page level custom scripts -->
+ <script src="{{asset('back')}}/js/demo/datatables-demo.js"></script>
 @endsection

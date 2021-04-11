@@ -159,7 +159,10 @@ return [
         'email' => 'E-mail',
         'phone' => 'Telefon Numarası' ,
         'topic' => 'Konu',
-        'message' => 'Mesaj'
+        'message' => 'Mesaj',
+        'title' => 'Başlık',
+        'image' => 'Resim',
+        'content' => 'İçerik'
     ],
 
 ];
