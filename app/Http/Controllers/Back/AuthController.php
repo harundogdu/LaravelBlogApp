@@ -15,16 +15,10 @@ class AuthController extends Controller
     }
     public function loginPost(Request $request)
     {
-    /*     $credentials = $request->only('email', 'password');
-        if(Auth::guard('admin')->login($credentials))
-       {         
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->route('admin.dashboard');
-       } */
-       if(Auth::attempt(['email' => $request->email, 'password' => $request->password]))
-       {         
-            return redirect()->route('admin.dashboard');
-       }
-        return redirect()->route('admin.login')->withErrors('Kullanıcı adı veya şifre hatalı');        
+        }
+        return redirect()->route('admin.login')->withErrors('Kullanıcı adı veya şifre hatalı');
     }
     public function logout()
     {
