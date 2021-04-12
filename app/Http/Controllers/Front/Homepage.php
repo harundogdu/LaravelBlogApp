@@ -15,7 +15,7 @@ class Homepage extends Controller
     function __construct()
     {
         view()->share('pages', Page::orderBy('order', 'ASC')->get());
-        view()->share('categories', Category::inRandomOrder()->get());
+        view()->share('categories', Category::where('status','1')->inRandomOrder()->get());
     }
     public function index()
     {
@@ -33,7 +33,7 @@ class Homepage extends Controller
     public function category($slug)
     {
         $category = Category::whereSlug($slug)->first() ?? abort(403, "Böyle bir kategori yok.");
-        $data['articles'] = Article::where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(2);
+        $data['articles'] = Article::where('status','1')->where('category_id', $category->id)->orderBy('created_at', 'DESC')->paginate(2);
         $data['category'] = $category;
         return view('front.category', $data);
     }

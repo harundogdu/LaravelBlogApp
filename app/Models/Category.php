@@ -8,6 +8,6 @@ class Category extends Model
 {
     public function getCategoryCount()
     {
-        return $this->hasMany('App\Models\Article','category_id','id')->count();
+        return $this->hasMany('App\Models\Article','category_id','id')->where('status','1')->count();
     }
 }
