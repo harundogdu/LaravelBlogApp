@@ -1,5 +1,5 @@
 @extends('back.layouts.master')
-@section('title','Tüm Makaleler')
+@section('title','Silinmiş Makaleler')
 @section('content')
  <!-- DataTales Example -->
  <div class="card shadow mb-4">
@@ -8,7 +8,7 @@
         <p>{{count($articles)}} Makale Bulundu</p>
         </h6>
         <h6 class="m-0 font-weight-bold text-primary float-right">
-            <a href="{{route('admin.article.trashed')}}" class="btn btn-warning text-dark"><i class="fas fa-trash"></i> Geri Dönüşüm Kutusu</a> 
+            <a href="{{route('admin.makaleler.index')}}" class="btn btn-primary">Aktif Gönderiler</a> 
         </h6>
         <div class="clearfix"></div>
     </div>
@@ -21,10 +21,8 @@
                         <th>Başlık</th>
                         <th>Kategori</th>
                         <th>Hit</th>
-                        <th>Oluşturma Zamanı</th>
-                        <th>Durum</th>
+                        <th>Silinme Zamanı</th>
                         <th>İşlemler</th>
-                        
                     </tr>
                 </thead>                
                 <tbody>                    
@@ -43,18 +41,12 @@
                     <td>{{$article->title}}</td>
                     <td>{{$article->getCategory->name}}</td>
                     <td>{{$article->hit}}</td>
-                    <td>{{$article->created_at->diffForHumans()}}</td>
-                    <td>
-                        <input data-id="{{$article->id}}" class="toggle-event" type="checkbox" @if($article->status==1) checked @endif data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger"  data-on="Aktif" data-off="Pasif">
-                    </td>
-                    <td width="150">
-                            <a href="{{route('single',[$article->getCategory->slug,$article->slug])}}" target="_blank" title="Görüntüle" class="btn btn-sm btn-info">
-                                <i class="fa fa-eye" aria-hidden="true"></i>
+                    <td>{{$article->deleted_at->diffForHumans()}}</td>                    
+                    <td width="150">                           
+                            <a href="{{route('admin.article.recovery',$article->id)}}" title="Geri Yükle" class="btn btn-sm btn-primary">
+                                <i class="fa fa-recycle" aria-hidden="true"></i>
                             </a>
-                            <a href="{{route('admin.makaleler.edit',$article->id)}}" title="Düzenle" class="btn btn-sm btn-warning">
-                                <i class="fa fa-pen" aria-hidden="true"></i>
-                            </a>
-                            <a href="{{route('admin.article.delete',$article->id)}}" title="Geri Dönüşüme Gönder" class="btn btn-sm btn-danger">
+                            <a href="{{route('admin.article.hardDelete',$article->id)}}" title="Kalıcı Olarak Sil" class="btn btn-sm btn-danger">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                     </td>

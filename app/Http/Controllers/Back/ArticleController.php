@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\Category;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class ArticleController extends Controller
@@ -17,8 +18,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('created_at','DESC')->get();
-        return view('back.articles.index',compact('articles'));
+        $articles = Article::orderBy('created_at', 'DESC')->get();
+        return view('back.articles.index', compact('articles'));
     }
 
     /**
@@ -29,7 +30,7 @@ class ArticleController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('back.articles.create',compact('categories'));
+        return view('back.articles.create', compact('categories'));
     }
 
     /**
@@ -49,17 +50,17 @@ class ArticleController extends Controller
         $article = new Article;
         $article->category_id = $request->category_id;
         $article->title = $request->title;
-        $article->content = $request->content;
+        $article->content = trim($request->content);
         $article->slug = Str::slug($request->title);
 
-        if($request->hasFile('image')){
-            $imageName = Str::slug($request->title).'.'.$request->image->getClientOriginalExtension();
-            $request->image->move(public_path('uploads'),$imageName);
-            $article->image = 'uploads/'.$imageName;
+        if ($request->hasFile('image')) {
+            $imageName = Str::slug($request->title) . '.' . $request->image->getClientOriginalExtension();
+            $request->image->move(public_path('uploads'), $imageName);
+            $article->image = 'uploads/' . $imageName;
         }
         $article->save();
 
-        toastr()->success('Tebrikler', 'Makale Başarıyla Eklendi!');
+        toastr()->success('Makale Başarıyla Eklendi!','İşlem Başarılı');
         return redirect()->route('admin.makaleler.index');
     }
 
@@ -84,7 +85,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         $categories = Category::all();
-        return view('back.articles.update',compact('categories','article'));
+        return view('back.articles.update', compact('categories', 'article'));
     }
 
     /**
@@ -96,29 +97,59 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-       $article = Article::findOrFail($id);
-       $article->title = $request->title;
-       $article->category_id = $request->category_id;
-       $article->content = $request->content;
+        $article = Article::findOrFail($id);
+        $article->title = $request->title;
+        $article->category_id = $request->category_id;
+        $article->content = trim($request->content);
 
-       if($request->hasFile('image')){
-            $imageName = Str::slug($request->title).'.'. $request->image->getClientOriginalExtension();
-            $request->image->move(public_path('uploads'),$imageName);
-            $article->image = 'uploads/'.$imageName;
-       }
+        if ($request->hasFile('image')) {
+            $imageName = Str::slug($request->title) . '.' . $request->image->getClientOriginalExtension();
+            $request->image->move(public_path('uploads'), $imageName);
+            $article->image = 'uploads/' . $imageName;
+        }
 
-       $article->save();
-       toastr()->success('Başarılı','Makale Başarıyla Güncellendi');
+        $article->save();
+        toastr()->success('Makale Başarıyla Güncellendi','İşlem Başarılı');
 
-       return redirect()->route('admin.makaleler.index');
-       
+        return redirect()->route('admin.makaleler.index');
     }
 
     public function switch(Request $request)
     {
         $article = Article::findOrFail($request->id);
-        $article->status = $request->statu=="true" ? 1 : 0;
+        $article->status = $request->statu == "true" ? 1 : 0;
         $article->save();
+    }
+
+    public function delete($id)
+    {
+        Article::find($id)->delete();
+        toastr()->success("Makale Başarıyla Geri Dönüşüme Gönderildi", 'İşlem Başarılı');
+        return redirect()->route('admin.makaleler.index');
+    }
+    public function trashed()
+    {
+        $articles = Article::onlyTrashed()->orderBy('deleted_at', 'DESC')->get();
+        return view('back.articles.trash', compact('articles'));
+    }
+    public function recovery($id)
+    {
+        Article::onlyTrashed()->find($id)->restore();
+        toastr()->success('Makale Geri Dönüştürüldü','İşlem Başarılı');
+        return redirect()->back();
+    }
+    public function hardDelete($id)
+    {
+        $article = Article::onlyTrashed()->find($id);
+
+        if(File::exists(public_path($article->image))){
+            File::delete(public_path($article->image));
+        }
+
+        $article->forceDelete();
+
+        toastr()->success('Makale Kalıcı Olarak Silindi!','İşlem Başarılı');
+        return redirect()->back();
     }
 
     /**

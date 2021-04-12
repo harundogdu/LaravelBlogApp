@@ -3,12 +3,12 @@
 <div class="post-preview">
   <img class="card-img" src="{{asset($article->image)}}" alt="Article image {{$article->id}}">
   <a href="{{route('single',[$article->getCategory->slug,$article->slug])}}">
-    <h3 class="post-title">
+    <div class="post-title">
      {{$article->title}}
-    </h3>    
-    <h4 class="post-subtitle">
-      {!! Str::limit($article->content,500) !!}      
-    </h4>
+    </div>    
+    <div class="post-subtitle">
+      {!! Str::limit($article->content,100) !!}      
+    </div>
   </a>
   <p class="post-meta">
     @isset($category)    
