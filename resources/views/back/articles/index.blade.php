@@ -40,15 +40,13 @@
                     <td>{{$article->hit}}</td>
                     <td>{{$article->created_at->diffForHumans()}}</td>
                     <td>
-                        @if($article->status==0)<span class="text-danger"><strong>Pasif</strong></span>
-                        @else<span class="text-success"><strong>Aktif</strong></span>
-                        @endif
+                        <input data-id="{{$article->id}}" class="toggle-event" type="checkbox" @if($article->status==1) checked @endif data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger"  data-on="Aktif" data-off="Pasif">
                     </td>
                     <td width="150">
                             <a href="{{route('single',[$article->getCategory->slug,$article->slug])}}" target="_blank" title="Görüntüle" class="btn btn-sm btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                             </a>
-                            <a href="" title="Düzenle" class="btn btn-sm btn-warning">
+                            <a href="{{route('admin.makaleler.edit',$article->id)}}" title="Düzenle" class="btn btn-sm btn-warning">
                                 <i class="fa fa-pen" aria-hidden="true"></i>
                             </a>
                             <a href="" title="Sil" class="btn btn-sm btn-danger">
@@ -66,6 +64,8 @@
 @endsection
 @section('css')    
 <link href="{{asset('back')}}/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
 @endsection
 @section('js')    
  <!-- Page level plugins -->
@@ -74,4 +74,18 @@
 
  <!-- Page level custom scripts -->
  <script src="{{asset('back')}}/js/demo/datatables-demo.js"></script>
+ <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+ <script>
+    $(function() {
+      $('.toggle-event').change(function() {
+        statu = $(this).prop('checked');
+        id = $(this)[0].getAttribute('data-id');
+        $.get("{{route('admin.switch')}}", {statu:statu,id:id},
+            function (data, textStatus, jqXHR) {
+               
+            }
+        );
+      })
+    })
+  </script>
 @endsection

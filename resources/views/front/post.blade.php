@@ -4,7 +4,7 @@
 @section('mainTitle',$article->title)
 @section('content')
     <div class="col-lg-9 col-md-10 mx-auto">
-        {!!$article->content!!}
+        {!! $article->content !!}
         <p class="post-meta">
             Catagory is : <a href="#">{{$article->getCategory->name}}</a>    
             <span class="float-right">{{$article->created_at->diffForHumans()}} paylaşıldı.</span>                  

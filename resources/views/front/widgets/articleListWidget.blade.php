@@ -1,7 +1,7 @@
 @if(count($articles) > 0)
 @foreach($articles as $article) 
 <div class="post-preview">
-  <img class="card-img" src="{{$article->image}}" alt="Article image {{$article->id}}">
+  <img class="card-img" src="{{asset($article->image)}}" alt="Article image {{$article->id}}">
   <a href="{{route('single',[$article->getCategory->slug,$article->slug])}}">
     <h3 class="post-title">
      {{$article->title}}

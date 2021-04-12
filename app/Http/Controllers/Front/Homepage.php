@@ -19,7 +19,7 @@ class Homepage extends Controller
     }
     public function index()
     {
-        $data['articles'] = Article::orderBy('created_at', 'DESC')->paginate(2)->withPath(url('yazilar/sayfa'));
+        $data['articles'] = Article::where('status',1)->orderBy('created_at', 'DESC')->paginate(2)->withPath(url('yazilar/sayfa'));
         return view('front.homepage', $data);
     }
     public function singlePage($category, $slug)
