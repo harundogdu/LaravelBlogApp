@@ -27,7 +27,9 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function(){
     Route::get('kategoriler/getdata','Back\CategoryController@getData')->name('kategoriler.getdata');
     Route::post('kategoriler/update','Back\CategoryController@update')->name('kategoriler.update');
     Route::post('kategoriler/delete','Back\CategoryController@delete')->name('kategoriler.delete');
-
+    /* Page's Route */
+    Route::get('/sayfalar','Back\PageController@index')->name('sayfalar.index');
+    Route::get('/sayfalar/switch','Back\PageController@switch')->name('sayfalar.switch');
     //
     Route::get('cikis','Back\AuthController@logout')->name('logout');
 });
