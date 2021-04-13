@@ -39,10 +39,10 @@
                             <a href="{{route('page',$page->slug)}}" target="_blank" title="Görüntüle" class="btn btn-sm btn-info">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                             </a>
-                            <a href="" title="Düzenle" class="btn btn-sm btn-warning">
+                            <a href="{{route('admin.sayfalar.update',$page->id)}}" title="Düzenle" class="btn btn-sm btn-warning">
                                 <i class="fa fa-pen" aria-hidden="true"></i>
                             </a>
-                            <a href="" title="Geri Dönüşüme Gönder" class="btn btn-sm btn-danger">
+                            <a href="{{route('admin.sayfalar.delete.page',$page->id)}}" title="Kalıcı olarak sil" class="btn btn-sm btn-danger">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                     </td>

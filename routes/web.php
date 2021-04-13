@@ -29,7 +29,13 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function(){
     Route::post('kategoriler/delete','Back\CategoryController@delete')->name('kategoriler.delete');
     /* Page's Route */
     Route::get('/sayfalar','Back\PageController@index')->name('sayfalar.index');
-    Route::get('/sayfalar/switch','Back\PageController@switch')->name('sayfalar.switch');
+    Route::get('/sayfalar/switch','Back\PageController@switch')->name('sayfalar.switch');    
+    Route::get('sayfalar/create','Back\PageController@create')->name('sayfalar.create');
+    Route::post('sayfalar/create/page','Back\PageController@createPage')->name('sayfalar.create.page');
+    Route::get('sayfalar/update/{id}','Back\PageController@update')->name('sayfalar.update');
+    Route::post('sayfalar/update/page/{id}','Back\PageController@updatePage')->name('sayfalar.update.page');
+    Route::get('sayfalar/delete/page/{id}','Back\PageController@delete')->name('sayfalar.delete.page');
+
     //
     Route::get('cikis','Back\AuthController@logout')->name('logout');
 });
