@@ -15,7 +15,7 @@ class ArticleSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
 
-        for ($i = 0; $i < 7; $i++) :
+        for ($i = 0; $i < 2; $i++) :
             $title = $faker->text(50);
             DB::table('articles')->insert([
                 'category_id' => rand(1,5),

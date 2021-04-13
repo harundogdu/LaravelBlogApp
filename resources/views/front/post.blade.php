@@ -6,7 +6,7 @@
     <div class="col-lg-9 col-md-10 mx-auto">
         {!! $article->content !!}
         <p class="post-meta">
-            Catagory is : <a href="#">{{$article->getCategory->name}}</a>    
+            Catagory is : <a href="{{route('category',$article->getCategory->slug)}}">{{$article->getCategory->name}}</a>    
             <span class="float-right">{{$article->created_at->diffForHumans()}} paylaşıldı.</span>                  
           </p>
           <p class="post-met">

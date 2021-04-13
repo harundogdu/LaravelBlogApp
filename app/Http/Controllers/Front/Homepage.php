@@ -15,7 +15,7 @@ class Homepage extends Controller
     function __construct()
     {
         view()->share('pages', Page::orderBy('order', 'ASC')->get());
-        view()->share('categories', Category::where('status','1')->inRandomOrder()->get());
+        view()->share('categories', Category::where('status','1')->orderBy('name','ASC')->get());
     }
     public function index()
     {

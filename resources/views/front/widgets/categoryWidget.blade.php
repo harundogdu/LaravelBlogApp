@@ -10,7 +10,7 @@
                 <a @if(Request::segment(2) != $category->slug)  href="{{route('category',$category->slug)}}" @endif>              
                   <li class="list-group-item d-flex justify-content-between align-items-center @if(Request::segment(2) == $category->slug) active text-light @endif">                    
                     {{$category->name}}
-                    <span class="badge badge-danger badge-pill">{{$category->getCategoryCount()}}</span>   
+                    <span class="badge badge-danger badge-pill">{{$category->getActiveArticleCount()}}</span>   
                   </li>         
                 </a>                    
                 @endforeach                    

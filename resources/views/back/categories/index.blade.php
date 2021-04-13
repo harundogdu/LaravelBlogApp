@@ -28,7 +28,8 @@
                             <thead>
                                 <tr>
                                     <th>Kategori Adı</th>  
-                                    <th>İçerdiği Yazı</th>
+                                    <th>Toplam Yazı</th>
+                                    <th>Aktif Yazı</th>
                                     <th>Durum</th>
                                     <th>İşlemler</th>
                                     
@@ -45,7 +46,8 @@
                                    @foreach($categories as $category)
                                <tr>                                
                                 <td>{{$category->name}}</td>
-                                <td>{{$category->getCategoryCount()}}</td>
+                                <td>{{$category->getArticleCount()}}</td>
+                                <td>{{$category->getActiveArticleCount()}}</td>
                                 <td>
                                     <input data-id="{{$category->id}}" class="toggle-event" type="checkbox" @if($category->status==1) checked @endif data-toggle="toggle" data-width="100" data-onstyle="success" data-offstyle="danger"  data-on="Aktif" data-off="Pasif">
                                 </td>
@@ -56,9 +58,9 @@
                                         <button data-toggle="modal" data-target="#exampleModal" data-id="{{$category->id}}" type="button" title="Düzenle" class="btn btn-sm btn-warning btn-data">
                                             <i class="fa fa-pen" aria-hidden="true"></i>
                                         </button>
-                                       {{--  <a href="{{route('admin.article.delete',$category->id)}}" title="Geri Dönüşüme Gönder" class="btn btn-sm btn-danger">
+                                        <a title="Geri Dönüşüme Gönder" class="btn btn-sm btn-danger delete-modal" data-id="{{$category->id}}" data-count="{{$category->getArticleCount()}}">
                                             <i class="fa fa-times" aria-hidden="true"></i>
-                                        </a> --}}
+                                        </a>
                                 </td>
                                 </tr>
                                 @endforeach
@@ -71,8 +73,9 @@
         </div>
     </div>   
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
- 
+      {{-- modals --}}
+      {{-- düzenle modals --}}
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -87,7 +90,7 @@
                     <div class="form-group">
                         <label for="category">Kategori Adı</label>
                         <input type="text" class="form-control" required name="category" id="category">
-                        <input type="hidden" name="category_id" value="{{$category->id}}">
+                        <input type="hidden" name="category_id" id="updateId">
                     </div>
                     <div class="form-group">
                         <label for="category">Kategori Slug</label>
@@ -96,6 +99,33 @@
                 </div>
                 <div class="modal-footer">
                 <button type="submit" class="btn btn-success">Kaydet</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {{-- sil modals --}}
+      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"> 
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Kategori Sil</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{{route('admin.kategoriler.delete')}}" method="POST">
+                @csrf
+                <div class="modal-body">  
+                    <div class="alert alert-danger">                        
+                        <p class="lead">Kategoriye silmek istediğinize emin misiniz ? <br> (Bu işlem geri alınamaz!)</p>   
+                        <div id="alertMessage"><strong>Önemli</strong> : Kategoriye ait makaleler bulunmaktadır, silinmesi durumunda bu makaleler taşınacaktır.</div>                    
+                    </div>                  
+                    <input type="hidden" name="category_id" id="deleteId">
+                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Kategoriyi Sil</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
                 </div>
             </form>
@@ -119,8 +149,20 @@
  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
  <script>
     $(function() {
+        $('.delete-modal').click(function(){
+            id = $(this)[0].getAttribute('data-id');
+            count = $(this)[0].getAttribute('data-count');
+            $('#deleteId').val(id);
+            $('#alertMessage').hide();
+            if(count > 0){
+                $('#alertMessage').show();
+            }
+            $('#deleteModal').modal();           
+        });
+
         $('.btn-data').click(function (e) { 
             id = $(this)[0].getAttribute('data-id');
+            $('#updateId').val(id);
             $.ajax({
                 type: "get",
                 url: "{{route('admin.kategoriler.getdata')}}",

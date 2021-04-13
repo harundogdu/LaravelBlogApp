@@ -26,6 +26,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function(){
     Route::post('kategoriler/ekle', 'Back\CategoryController@create')->name('kategoriler.create');
     Route::get('kategoriler/getdata','Back\CategoryController@getData')->name('kategoriler.getdata');
     Route::post('kategoriler/update','Back\CategoryController@update')->name('kategoriler.update');
+    Route::post('kategoriler/delete','Back\CategoryController@delete')->name('kategoriler.delete');
+
     //
     Route::get('cikis','Back\AuthController@logout')->name('logout');
 });
