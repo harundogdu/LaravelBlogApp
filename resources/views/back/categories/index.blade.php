@@ -53,10 +53,10 @@
                                         <a href="{{route('category',[$category->slug])}}" target="_blank" title="Görüntüle" class="btn btn-sm btn-info">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                         </a>
-                                        {{-- <a href="{{route('admin.makaleler.edit',$category->id)}}" title="Düzenle" class="btn btn-sm btn-warning">
+                                        <button data-toggle="modal" data-target="#exampleModal" data-id="{{$category->id}}" type="button" title="Düzenle" class="btn btn-sm btn-warning btn-data">
                                             <i class="fa fa-pen" aria-hidden="true"></i>
-                                        </a>
-                                        <a href="{{route('admin.article.delete',$category->id)}}" title="Geri Dönüşüme Gönder" class="btn btn-sm btn-danger">
+                                        </button>
+                                       {{--  <a href="{{route('admin.article.delete',$category->id)}}" title="Geri Dönüşüme Gönder" class="btn btn-sm btn-danger">
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </a> --}}
                                 </td>
@@ -69,7 +69,39 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>   
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ 
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Kategori Güncelle</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="{{route('admin.kategoriler.update')}}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="category">Kategori Adı</label>
+                        <input type="text" class="form-control" required name="category" id="category">
+                        <input type="hidden" name="category_id" value="{{$category->id}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Kategori Slug</label>
+                        <input type="text" class="form-control" required name="slug" id="slug">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="submit" class="btn btn-success">Kaydet</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Kapat</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
 @endsection
 
 @section('css')    
@@ -87,6 +119,21 @@
  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
  <script>
     $(function() {
+        $('.btn-data').click(function (e) { 
+            id = $(this)[0].getAttribute('data-id');
+            $.ajax({
+                type: "get",
+                url: "{{route('admin.kategoriler.getdata')}}",
+                data: {id:id},
+                success: function (response) {
+                    $('#category').val(response.name);
+                    $('#slug').val(response.slug);
+                }
+            });
+
+        
+        });
+
       $('.toggle-event').change(function() {
         statu = $(this).prop('checked');
         id = $(this)[0].getAttribute('data-id');
