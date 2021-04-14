@@ -9,25 +9,28 @@
     </div>
     <div class="card-body">
         <div class="table-responsive">
+            <div style="display: none;" class="alert alert-success text-center" id="alertMessage">Sıralama Başarıyla Güncellendi!</div>
             <table class="table table-bordered text-center" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
+                        <th>Sıralama</th>
                         <th width="200">Resim</th>                        
                         <th>Sayfa Adı</th>
                         <th>Durum</th>
                         <th>İşlemler</th>                        
                     </tr>
                 </thead>                
-                <tbody>                    
-                   @if(count($pages) == 0)
+                <tbody id="my-list">                    
+                @if(count($pages) == 0)
                     <tr>                      
                         <td colspan="4">
                             <div class="alert alert-danger">Veri Bulunamadı</div>
                         </td>
                     </tr>
-                       @else
+                @else
                        @foreach($pages as $page)
-                   <tr>
+                   <tr id="page_{{$page->id}}">
+                    <td width="30" class="handle"><i class="fa fa-arrows-alt-v fa-2x" style="cursor: move;" aria-hidden="true"></i></td>
                     <td>
                         <img src="{{ asset($page->image) }}" alt="{{$page->title}}" width="200">
                     </td>
@@ -68,6 +71,30 @@
  <!-- Page level custom scripts -->
  <script src="{{asset('back')}}/js/demo/datatables-demo.js"></script>
  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.13.0/Sortable.min.js" integrity="sha512-5x7t0fTAVo9dpfbp3WtE2N6bfipUwk7siViWncdDoSz2KwOqVC1N9fDxEOzk0vTThOua/mglfF8NO7uVDLRC8Q==" crossorigin="anonymous"></script>
+ <script>
+     $(document).ready(function () {  
+        $('#my-list').sortable({
+                handle: '.handle',
+                invertSwap: true,
+                swap: true, // Enable swap plugin
+	            swapClass: 'highlight', // The class applied to the hovered swap item
+	            animation: 150,
+                update:function(){
+                   var orders = $('#my-list').sortable('serialize');
+                   $.get("{{route('admin.sayfalar.sortpage')}}?"+orders,
+                   function(data,status){
+                    
+                   });                   
+                   $('#alertMessage').fadeIn(3000).fadeOut(1000);
+                }
+            });       
+
+    
+
+
+    });
+ </script>
  <script>
     $(function() {
       $('.toggle-event').change(function() {

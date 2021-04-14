@@ -11,7 +11,7 @@ class PageController extends Controller
 {
     public function index()
     {
-        $pages = Page::all();
+        $pages = Page::orderBy('order','ASC')->get();
         return view('back.pages.index', compact('pages'));
     }
     public function switch(Request $request)
@@ -47,12 +47,12 @@ class PageController extends Controller
     }
     public function create()
     {
-       return view('back.pages.create');
+        return view('back.pages.create');
     }
     public function update($id)
     {
         $page = Page::findOrFail($id);
-       return view('back.pages.update',compact('page'));
+        return view('back.pages.update', compact('page'));
     }
     public function updatePage(Request $request, $id)
     {
@@ -67,7 +67,7 @@ class PageController extends Controller
         }
 
         $page->save();
-        toastr()->success('Sayfa Başarıyla Güncellendi','İşlem Başarılı');
+        toastr()->success('Sayfa Başarıyla Güncellendi', 'İşlem Başarılı');
 
         return redirect()->route('admin.sayfalar.index');
     }
@@ -76,7 +76,14 @@ class PageController extends Controller
     {
         $page = Page::findOrFail($id);
         $page->delete();
-        toastr()->success('Sayfa Başarıyla Silindi!','İşlem Başarılı');
+        toastr()->success('Sayfa Başarıyla Silindi!', 'İşlem Başarılı');
         return redirect()->back();
+    }
+
+    public function pageSort(Request $request)
+    {
+        foreach ($request->get('page') as $key => $value) {
+            Page::where('id', $value)->update(['order' => $key]);
+        }
     }
 }
