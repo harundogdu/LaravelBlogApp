@@ -36,6 +36,9 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function(){
     Route::post('sayfalar/update/page/{id}','Back\PageController@updatePage')->name('sayfalar.update.page');
     Route::get('sayfalar/delete/page/{id}','Back\PageController@delete')->name('sayfalar.delete.page');
     Route::get('sayfalar/orders','Back\PageController@pageSort')->name('sayfalar.sortpage');
+    // Setting's Route
+    Route::get('configs','Back\ConfigController@index')->name('config.index');
+    Route::post('configs/update','Back\ConfigController@update')->name('config.update');
     //
     Route::get('cikis','Back\AuthController@logout')->name('logout');
 });

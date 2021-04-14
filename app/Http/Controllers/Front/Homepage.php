@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Page;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class Homepage extends Controller
@@ -61,6 +62,23 @@ class Homepage extends Controller
         if ($validate->fails()) {
             return redirect()->route('contact')->withErrors($validate)->withInput();
         }
+        
+        // mailtrap
+
+        Mail::send([], [], function ($message) use($request) {
+            $message->from('iletisim@harundogdu.com.tr', 'Harun Doğdu İletişim');
+            $message->to('harundogdu06@gmail.com', 'Harun Doğdu');            
+            $message->setBody("
+                            Mesajı Gönderen : ". $request->name ."<br>
+                            Mesajı Gönderen Email : ". $request->email ."<br>
+                            Mesajın Konusu : ".$request->topic."<br>
+                            Mesaj : ". $request->message ."<br>
+                            Mesaj Gönderilme Zamanı : ". now() ."","text/html");
+            $message->subject($request->name . ' isimli kişi harundogdu.com.tr/iletisim üzerinden mesaj gönderdi.');
+        });
+        
+        
+        // Database save
         $contact = new Contact();
         $contact->name = $request->name;
         $contact->email = $request->email;
@@ -68,6 +86,7 @@ class Homepage extends Controller
         $contact->topic = $request->topic;
         $contact->message = $request->message;
         $contact->save();
+
         return redirect()->route('contact')->with('success', 'Mesajınız Başarıyla Gönderildi.');
     }
 }

@@ -9,32 +9,22 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
         <ul class="list-inline text-center">
-          <li class="list-inline-item">
-            <a href="https://twitter.com/HarunnDogdu">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          <li class="list-inline-item">
-            <a href="https://www.facebook.com/harundogduuu/">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          <li class="list-inline-item">
-            <a href="https://github.com/harundogdu">
-              <span class="fa-stack fa-lg">
-                <i class="fas fa-circle fa-stack-2x"></i>
-                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
+          @php $socials = ['facebook','instagram','linkedin','youtube','github','twitter']; @endphp
+          @foreach($socials as $social)     
+            @if($config->$social != null)
+              <li class="list-inline-item">
+                <a target="_blank" href="{{$config->$social}}">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-{{$social}} fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            @endif 
+          @endforeach
+
         </ul>
-        <p class="copyright text-muted">Copyright &copy; Ancyra {{now()->year}}</p>
+        <p class="copyright text-muted">Copyright &copy; {{$config->title}} | {{now()->year}}</p>
       </div>
     </div>
   </div>
