@@ -81,6 +81,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label for="">Yapımcı Hakkında</label>
+                            <textarea name="aboutOfCreator" id="" cols="30" rows="10" class="form-control">{{$config->aboutOfCreator}}</textarea>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <button class="btn btn-lg btn-primary btn-block">Site Ayarlarını Güncelle</button>

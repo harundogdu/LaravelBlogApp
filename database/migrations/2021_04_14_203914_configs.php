@@ -17,6 +17,7 @@ class Configs extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->integer('active')->default(1)->comment('0:Pasif | 1:Aktif');
+            $table->longText('aboutOfCreator');
             $table->string('logo')->nullable();
             $table->string('favicon')->nullable();
             $table->string('facebook')->nullable();
@@ -24,7 +25,7 @@ class Configs extends Migration
             $table->string('linkedin')->nullable();
             $table->string('youtube')->nullable();
             $table->string('github')->nullable();
-            $table->string('twitter')->nullable();
+            $table->string('twitter')->nullable();            
             $table->timestamps();
         });
     }

@@ -26,6 +26,7 @@ class ConfigController extends Controller
         $config->youtube =$request->youtube;
         $config->github =$request->github;
         $config->twitter =$request->twitter;
+        $config->aboutOfCreator = $request->aboutOfCreator;
 
         if($request->hasFile('favicon')){
             $favIconName = Str::slug($request->title)."-favicon.".$request->favicon->getClientOriginalExtension();
@@ -35,9 +36,7 @@ class ConfigController extends Controller
         if($request->hasFile('logo')){
             $logoName = Str::slug($request->title)."-logo.".$request->logo->getClientOriginalExtension();
             $request->logo->move(public_path('uploads'),$logoName);
-            $config->logo = "uploads/".$logoName;
-
-           
+            $config->logo = "uploads/".$logoName;           
         }
         $config->save();
         toastr()->success('Site Ayarları Başarıyla Güncellendi!', 'İşlem Başarılı');
