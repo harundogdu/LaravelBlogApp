@@ -8,6 +8,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Page;
+use App\Models\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,8 +16,12 @@ class Homepage extends Controller
 {
     function __construct()
     {
+        if(Config::find(1)->active == 0){
+            return redirect()->to('site-bakimda')->send();
+        }
         view()->share('pages', Page::where('status',1)->orderBy('order', 'ASC')->get());
         view()->share('categories', Category::where('status',1)->orderBy('name','ASC')->get());
+        view()->share('config',Config::find(1));
     }
     public function index()
     {
