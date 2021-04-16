@@ -51,9 +51,9 @@ class ArticleController extends Controller
         $article->category_id = $request->category_id;
         $article->title = $request->title;
         $article->content = trim($request->content);
-        $article->slug = Str::slug($request->title);
+        $article->slug = Str::slug($request->title);        
 
-        if ($request->hasFile('image')) {
+        if ($request->hasFile('image')) {            
             $imageName = Str::slug($request->title) . '.' . $request->image->getClientOriginalExtension();
             $request->image->move(public_path('uploads'), $imageName);
             $article->image = 'uploads/' . $imageName;
@@ -117,7 +117,7 @@ class ArticleController extends Controller
     public function switch(Request $request)
     {
         $article = Article::findOrFail($request->id);
-        $article->status = $request->statu == "true" ? 1 : 0;
+        $article->status = $request->statu == "true" ? 1 : 0;       
         $article->save();
     }
 

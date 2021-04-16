@@ -19,7 +19,7 @@
       </div>
     @endif
         <form action="{{route('contact.post')}}" method="POST">
-          @csrf          
+           @csrf
             <div class="control-group">
               <div class="form-group ">
                 <label>Adınız ve Soyadınız</label>
